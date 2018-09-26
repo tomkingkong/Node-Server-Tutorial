@@ -9,7 +9,7 @@ let messages = [
 ]
 
 server.listen(3000, () => {
-  console.log('Hey, Listen! port 3000')
+  console.log('Hey, Listen! port 3000');
 })
 
 const getAllMessages = (response) => {
@@ -20,24 +20,25 @@ const getAllMessages = (response) => {
 
 const addMessage = (message, response) => {
   response.writeHead(201, { 'Content-Type': 'text/plain' });
-  response.write(JSON.stringify(message));
   messages.push(message);
+  response.write(JSON.stringify(message));
   response.end();
 };
 
 server.on('request', (request, response) => {
   if (request.method === 'GET') {
-    getAllMessages(response)
+    getAllMessages(response);
   }
 
   else if (request.method === 'POST') {
-    let newMessage = { 'id': messages.length+1 };
-    request.on('data', (data) => {
-      newMessage = Object.assign(newMessage, JSON.parse(data));
+    let newMessage = { 'id': messages.length + 1 };
+
+    request.on('data', data => {
+      newMessage = Object.assign(newMessage, data.toString('utf8'));
     });
 
     request.on('end', () => {
-      addMessage(newMessage, response)
+      addMessage(newMessage, response);
     });
   }
 });
