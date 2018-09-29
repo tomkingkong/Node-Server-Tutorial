@@ -40,7 +40,7 @@ server.on('request', (request, response) => {
     request.on('end', () => {
       addMessage(newMessage, response);
     });
-  }
+  };
 });
 
 
